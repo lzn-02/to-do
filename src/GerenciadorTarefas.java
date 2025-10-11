@@ -1,5 +1,5 @@
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+//import com.google.gson.Gson;
+//import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
 import java.lang.reflect.Type;
@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GerenciadorTarefas {
+    //private Gson gson;
     private List<Tarefa> tarefas;
-    private static final String N_ARQUIVO = "tarefas.json";
-    private Gson gson;
+    //private static final String N_ARQUIVO = "tarefas.json";
+
 
     public GerenciadorTarefas(){
-        this.tarefas = carregarTarefas();
-        this.gson = new Gson();
+        this.tarefas = new ArrayList<Tarefa>();
+        //this.gson = new Gson( );
     }
 
     public Tarefa criarTarefa(String titulo){
@@ -22,7 +23,6 @@ public class GerenciadorTarefas {
 
     public void adicionarTarefa(Tarefa tarefa){
         tarefas.add(tarefa);
-        //salvarTarefas();
     }
 
     public void exibirTarefas(){
@@ -32,32 +32,20 @@ public class GerenciadorTarefas {
         }
     }
 
-    private void salvarTarefas(){
-        try {
-            Writer escritor = new FileWriter(N_ARQUIVO);
-            //cria um file writer para escrever no aquivo JSON
-            gson.toJson(tarefas, escritor);
-            //recebe tarefas e com o file writer escreve as informações no JSON
-        }catch(IOException e){
-                System.out.println("Erro ao salvar a tarefa. "+ e.getMessage());
-        }
+    public void marcarComoFeito(int valor){
+        tarefas.get(valor-1).setFeito();
     }
 
-    private List<Tarefa> carregarTarefas(){
-        try{
-            Reader leitor = new FileReader(N_ARQUIVO);
-            Type listType = new TypeToken<ArrayList<Tarefa>>(){}.getType();
-
-            List<Tarefa> tarefasCarregadas = gson.fromJson(leitor, listType);
-
-            return tarefasCarregadas != null ? tarefasCarregadas : new ArrayList<>();
-
-        } catch (FileNotFoundException e) {
-            System.out.println("Arquivo não encontrado. Uma nova lista será criada.");
-            return new ArrayList<>();
-        }
+    public void editarTarefa(int valor, String novoTitulo){
+        tarefas.get(valor-1).setTitulo(novoTitulo);
     }
 
+    public void deletarTarefa(int valor){
+        tarefas.remove(valor-1);
+    }
 
+    public void maisInfo(int valor){
+        tarefas.get(valor-1).toString();
+    }
 
 }

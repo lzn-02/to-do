@@ -1,14 +1,16 @@
-import java.util.Scanner;
+import java.time.LocalDate;
 
 public class Tarefa {
     private String titulo;
     private String descricao;
     private Boolean feito;
+    private final LocalDate dataDeCriacao;
 
     public Tarefa(String titulo) {
         this.titulo = titulo;
         this.descricao = "sem descrição";
         this.feito = false;
+        this.dataDeCriacao = LocalDate.now();
     }
 
     public String getTitulo() {
@@ -31,8 +33,12 @@ public class Tarefa {
         return feito;
     }
 
-    public void setFeito(Boolean feito) {
+    public void setFeito() {
         this.feito = true;
+    }
+
+    public LocalDate getDataDeCriacao() {
+        return dataDeCriacao;
     }
 
     @Override
@@ -40,6 +46,8 @@ public class Tarefa {
         return "Tarefa{" +
                 "titulo='" + titulo + '\'' +
                 ", descricao='" + descricao + '\'' +
+                ", feito=" + feito +
+                ", dataDeCriacao=" + dataDeCriacao +
                 '}';
     }
 }
