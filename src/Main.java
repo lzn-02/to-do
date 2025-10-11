@@ -59,7 +59,6 @@ public class Main {
     }
 
     public static int perguntaValor(Scanner t){
-        int valor = Integer.parseInt(leInfoString(t, "digite o número da tarefa: "));
-        return valor;
+        return Integer.parseInt(leInfoString(t, "digite o número da tarefa: "));
     }
 }
