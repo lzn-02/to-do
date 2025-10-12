@@ -1,3 +1,4 @@
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Main {
@@ -9,47 +10,39 @@ public class Main {
         int valor;
 
         do{
-            escolha = leInfoString(t, "c - cria tarefa/ v - vizualisa tarefas/ m - marcar como feito/ e - editar tarefa/ d - deletar tarefa/ s - sair").toLowerCase();
-            //conferir se o valor informado é um dos solicitados
-            switch (escolha){
-                case "c":
-                    String titulo = leInfoString(t, "digite o nome da tarefa: ");
-                    Tarefa tarefa = g.criarTarefa(titulo);
-                    g.adicionarTarefa(tarefa);
-                    //cria tarefa e adiciona
+            escolha = obterOpcaoMenu(t);
+            //imprime menu, recebe valor e verifica se é válido
+            if (escolha.equals("c")){
+                //cria uma nova tarefa
+                String titulo = leInfoString(t, "digite o nome da tarefa: ");
+                Tarefa tarefa = g.criarTarefa(titulo);
+                g.adicionarTarefa(tarefa);
+                break;
+            } else if (escolha.equals("v")) {
+                //imprime na tela as tarefas existentes
+                g.exibirTarefas();
+                break;
+            } else if (escolha.equals("e")) {
+                escolha = subMenu(t);
+                g.exibirTarefas();
+                int subEscolha = 0;
+                if (escolha.equals("m")){
+                    concluirTarefa(g, t);
                     break;
-                case "v":
-                    g.exibirTarefas();
+                } else if (escolha.equals("d")){
+                    deletarTarefa(g, t);
                     break;
-                case "m": //tranformar em um menu de informações/edição junto com deletar e editar, adicionar um "adicionar descrição"
-                    g.exibirTarefas();
-                    valor = perguntaValor(t);
-                    //erro de outOfBounds
-                    g.marcarComoFeito(valor);
+                } else if (escolha.equals("an")){
+                    subEscolha = perguntaValor(t);
                     break;
-                case "e":
-                    g.exibirTarefas();
-                    valor = perguntaValor(t);
-                    String novoTitulo = leInfoString(t, "Digite o novo nome da tarefa");
-                    //erro de outOfBounds
-                    g.editarTarefa(valor, novoTitulo);
-                    System.out.println("título redefinido");
+                } else if (escolha.equals("ad")){
+                    subEscolha = perguntaValor(t);
                     break;
-                case "d":
-                    g.exibirTarefas();
-                    valor = perguntaValor(t);
-                    String pergunta = leInfoString(t, "deseja mesmo deletar essa tarefa? s/n").toLowerCase();
-                    if (pergunta.equals("s")){
-                        g.deletarTarefa(valor);
-                        System.out.println("tarefa deletada");
-                        break;
-                    }
-                    System.out.println("operação cancelada");
-                    break;
-
                 }
-                //limpar???
-        }while(!escolha.equalsIgnoreCase("s"));
+                break;
+            }
+        }while (!escolha.equals("s"));
+
         t.close();
     }
 
@@ -60,5 +53,74 @@ public class Main {
 
     public static int perguntaValor(Scanner t){
         return Integer.parseInt(leInfoString(t, "digite o número da tarefa: "));
+    }
+
+    public static String obterOpcaoMenu(Scanner t){
+        boolean entradaValida = false;
+        String entrada = "";
+
+        while(!entradaValida){
+            try{
+                entrada = leInfoString(t, "c - cria tarefa/ v - vizualisa tarefas/ e - editar tarefa/ s - sair").toLowerCase();
+                if (entrada.equals("c") || entrada.equals("v") || entrada.equals("s") || entrada.equals("e")){
+                    entradaValida = true;
+                } else {
+                    throw new Exception("Entrada inválida");
+                }
+            } catch (Exception e) {
+                System.out.println("Entrada inválida, digite novamente");
+            }
+        }
+        return entrada;
+    }
+
+    public static String subMenu(Scanner t){
+        boolean entradaValida = false;
+        String entrada = "";
+
+        while(!entradaValida){
+            try{
+                entrada = leInfoString(t, "m - marcar tarefa como concluída/ d - deleta tarefa/ an - altera nome da tarefa/ ad - altera descrição da tarefa").toLowerCase();
+                if (entrada.equals("m") || entrada.equals("d") || entrada.equals("an") || entrada.equals("ad")){
+                    entradaValida = true;
+                } else {
+                    throw new Exception("Entrada inválida");
+                }
+            } catch (Exception e){
+                System.out.println("Entrada inválida, digite novamente");
+            }
+        }
+        return entrada;
+    }
+
+    public static void concluirTarefa(GerenciadorTarefas g, Scanner t){
+        //criar exceção
+        int valor = perguntaValor(t);
+        g.marcarComoFeito(valor);
+    }
+
+    public static void deletarTarefa(GerenciadorTarefas g, Scanner t){
+        //criar exceção
+        int valor = perguntaValor(t);
+        String pergunta = leInfoString(t, "deseja mesmo apagar essa tarefa? s/n").toLowerCase();
+        try{
+            if (pergunta.equals("s")) {
+                g.deletarTarefa(valor);
+            } else if (pergunta.equals("n")) {
+                System.out.println("operação cancelada");
+            } else {
+                throw new Exception("entrada inválida");
+            }
+        } catch (Exception e) {
+            System.out.println("Entrada inválida, digite novamente");
+        }
+    }
+
+    public static void alterarTitulo(GerenciadorTarefas g, Scanner t){
+
+    }
+
+    public static void alterarDescricao(GerenciadorTarefas g, Scanner t){
+
     }
 }

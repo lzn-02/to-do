@@ -26,7 +26,6 @@ public class GerenciadorTarefas {
     }
 
     public void exibirTarefas(){
-
         for (Tarefa tarefa : tarefas){
             System.out.println( tarefas.indexOf(tarefa)+1+". "+ tarefa.getTitulo() + " - " + (tarefa.getFeito() ? "feita" : "pendente"));
         }
@@ -40,9 +39,7 @@ public class GerenciadorTarefas {
         tarefas.get(valor-1).setTitulo(novoTitulo);
     }
 
-    public void deletarTarefa(int valor){
-        tarefas.remove(valor-1);
-    }
+    public void deletarTarefa(int valor){tarefas.remove(valor-1); }
 
     public void maisInfo(int valor){
         tarefas.get(valor-1).toString();
