@@ -1,4 +1,3 @@
-import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Main {
@@ -7,7 +6,7 @@ public class Main {
         GerenciadorTarefas g = new GerenciadorTarefas();
 
         String escolha;
-        int valor;
+
 
         do{
             escolha = obterOpcaoMenu(t);
@@ -17,32 +16,35 @@ public class Main {
                 String titulo = leInfoString(t, "digite o nome da tarefa: ");
                 Tarefa tarefa = g.criarTarefa(titulo);
                 g.adicionarTarefa(tarefa);
-                break;
+
             } else if (escolha.equals("v")) {
                 //imprime na tela as tarefas existentes
-                g.exibirTarefas();
-                break;
-            } else if (escolha.equals("e")) {
-                escolha = subMenu(t);
-                g.exibirTarefas();
-                int subEscolha = 0;
-                if (escolha.equals("m")){
-                    concluirTarefa(g, t);
-                    break;
-                } else if (escolha.equals("d")){
-                    deletarTarefa(g, t);
-                    break;
-                } else if (escolha.equals("an")){
-                    subEscolha = perguntaValor(t);
-                    break;
-                } else if (escolha.equals("ad")){
-                    subEscolha = perguntaValor(t);
-                    break;
-                }
-                break;
-            }
-        }while (!escolha.equals("s"));
+                exibirTarefas(g);
 
+            } else if (escolha.equals("e")) {
+                //menu de edição
+                escolha = subMenu(t);
+                g.exibirTarefasSimples();
+                if (escolha.equals("m")){
+                    //marca tarefa como feita/conluida
+                    concluirTarefa(g, t);
+
+                } else if (escolha.equals("d")){
+                    //deleta tarefa existente
+                    deletarTarefa(g, t);
+
+                } else if (escolha.equals("an")){
+                    //altera título da tarefa escolhida
+                    alterarTitulo(g, t);
+
+                } else if (escolha.equals("ad")){
+                    //altera descrição da tarefa escolhida
+                    alterarDescricao(g, t);
+
+                }
+
+            }
+        } while (!escolha.equals("s"));
         t.close();
     }
 
@@ -93,6 +95,10 @@ public class Main {
         return entrada;
     }
 
+    public static void exibirTarefas(GerenciadorTarefas g){
+        g.exibirTarefasCompleto();
+    }
+
     public static void concluirTarefa(GerenciadorTarefas g, Scanner t){
         //criar exceção
         int valor = perguntaValor(t);
@@ -117,10 +123,14 @@ public class Main {
     }
 
     public static void alterarTitulo(GerenciadorTarefas g, Scanner t){
-
+        int valor = perguntaValor(t);
+        String novoTitulo = leInfoString(t, "Digite o novo título da tarefa");
+        g.editarTituloTarefa(valor, novoTitulo);
     }
 
     public static void alterarDescricao(GerenciadorTarefas g, Scanner t){
-
+        int valor = perguntaValor(t);
+        String novaDescicao = leInfoString(t, "Digite a descição");
+        g.editarDescricaoTarefa(valor, novaDescicao);
     }
 }

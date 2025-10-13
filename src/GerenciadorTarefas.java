@@ -25,9 +25,15 @@ public class GerenciadorTarefas {
         tarefas.add(tarefa);
     }
 
-    public void exibirTarefas(){
+    public void exibirTarefasSimples(){
         for (Tarefa tarefa : tarefas){
             System.out.println( tarefas.indexOf(tarefa)+1+". "+ tarefa.getTitulo() + " - " + (tarefa.getFeito() ? "feita" : "pendente"));
+        }
+    }
+
+    public void exibirTarefasCompleto(){
+        for(Tarefa tarefa : tarefas){
+            System.out.println(tarefas.indexOf(tarefa)+1+". "+tarefa.toString());
         }
     }
 
@@ -35,9 +41,11 @@ public class GerenciadorTarefas {
         tarefas.get(valor-1).setFeito();
     }
 
-    public void editarTarefa(int valor, String novoTitulo){
+    public void editarTituloTarefa(int valor, String novoTitulo){
         tarefas.get(valor-1).setTitulo(novoTitulo);
     }
+
+    public void editarDescricaoTarefa(int valor, String novaDescricao){ tarefas.get(valor-1).setDescricao(novaDescricao);}
 
     public void deletarTarefa(int valor){tarefas.remove(valor-1); }
 
