@@ -7,7 +7,7 @@ import java.util.List;
 
 public class GerenciadorTarefas {
     //private Gson gson;
-    private final List<Tarefa> tarefas;
+    private List<Tarefa> tarefas;
     //private static final String N_ARQUIVO = "tarefas.json";
 
 
