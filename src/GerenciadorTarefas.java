@@ -2,18 +2,17 @@
 //import com.google.gson.reflect.TypeToken;
 
 import java.io.*;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GerenciadorTarefas {
     //private Gson gson;
-    private List<Tarefa> tarefas;
+    private final List<Tarefa> tarefas;
     //private static final String N_ARQUIVO = "tarefas.json";
 
 
     public GerenciadorTarefas(){
-        this.tarefas = new ArrayList<Tarefa>();
+        this.tarefas = new ArrayList<>();
         //this.gson = new Gson( );
     }
 
@@ -49,8 +48,6 @@ public class GerenciadorTarefas {
 
     public void deletarTarefa(int valor){tarefas.remove(valor-1); }
 
-    public void maisInfo(int valor){
-        tarefas.get(valor-1).toString();
-    }
+    //criar método que exclui todas as tarefas concluídas?
 
 }

@@ -23,6 +23,7 @@ public class Main {
 
             } else if (escolha.equals("e")) {
                 //menu de edição
+                //criar subEscolha, enquanto subEscolha for diferente de "s" o usuário permanecerá no menu de edição
                 escolha = subMenu(t);
                 g.exibirTarefasSimples();
                 if (escolha.equals("m")){
@@ -82,8 +83,8 @@ public class Main {
 
         while(!entradaValida){
             try{
-                entrada = leInfoString(t, "m - marcar tarefa como concluída/ d - deleta tarefa/ an - altera nome da tarefa/ ad - altera descrição da tarefa").toLowerCase();
-                if (entrada.equals("m") || entrada.equals("d") || entrada.equals("an") || entrada.equals("ad")){
+                entrada = leInfoString(t, "m - marcar tarefa como concluída/ d - deleta tarefa/ an - altera nome da tarefa/ ad - altera descrição da tarefa/ v - voltar").toLowerCase();
+                if (entrada.equals("m") || entrada.equals("d") || entrada.equals("an") || entrada.equals("ad") || entrada.equals("s")){
                     entradaValida = true;
                 } else {
                     throw new Exception("Entrada inválida");
@@ -96,21 +97,28 @@ public class Main {
     }
 
     public static void exibirTarefas(GerenciadorTarefas g){
+        //alterar método toString(), adicionar operador ternário nele que indica se a tarefa está feita ou pendente
         g.exibirTarefasCompleto();
     }
 
     public static void concluirTarefa(GerenciadorTarefas g, Scanner t){
         //criar exceção
-        int valor = perguntaValor(t);
-        g.marcarComoFeito(valor);
+        try{
+            int valor = perguntaValor(t);
+            g.marcarComoFeito(valor);
+        } catch (IndexOutOfBoundsException e){
+            System.out.println("Valor inválido, digite novamente");
+        }
     }
 
     public static void deletarTarefa(GerenciadorTarefas g, Scanner t){
         //criar exceção
         int valor = perguntaValor(t);
         String pergunta = leInfoString(t, "deseja mesmo apagar essa tarefa? s/n").toLowerCase();
+        //loop para verificar se valor é 's' ou 'n' com exceção
         try{
             if (pergunta.equals("s")) {
+                //try-catch aqui
                 g.deletarTarefa(valor);
             } else if (pergunta.equals("n")) {
                 System.out.println("operação cancelada");
@@ -124,12 +132,14 @@ public class Main {
 
     public static void alterarTitulo(GerenciadorTarefas g, Scanner t){
         int valor = perguntaValor(t);
+        //verificar se indice informado existe no array antes de prosseguir (conferir comparando o valor com o tamanho do array?)
         String novoTitulo = leInfoString(t, "Digite o novo título da tarefa");
         g.editarTituloTarefa(valor, novoTitulo);
     }
 
     public static void alterarDescricao(GerenciadorTarefas g, Scanner t){
         int valor = perguntaValor(t);
+        //verificar se indice informado existe no array antes de prosseguir (conferir comparando o valor com o tamanho do array?)
         String novaDescicao = leInfoString(t, "Digite a descição");
         g.editarDescricaoTarefa(valor, novaDescicao);
     }
