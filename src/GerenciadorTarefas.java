@@ -11,6 +11,10 @@ public class GerenciadorTarefas {
     //private static final String N_ARQUIVO = "tarefas.json";
 
 
+    public List<Tarefa> getTarefas() {
+        return tarefas;
+    }
+
     public GerenciadorTarefas(){
         this.tarefas = new ArrayList<>();
         //this.gson = new Gson( );

@@ -43,11 +43,9 @@ public class Tarefa {
 
     @Override
     public String toString() {
-        return "Tarefa{" +
-                "titulo='" + titulo + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", feito=" + feito +
-                ", dataDeCriacao=" + dataDeCriacao +
-                '}';
+        return  titulo + "\n" +
+                "- descricao: " + descricao + "\n" +
+                "- concluido: " + (feito? "Sim" : "Não") + "\n" +
+                "criada em " + dataDeCriacao.getDayOfMonth() + "/" + dataDeCriacao.getMonthValue() + "/" + dataDeCriacao.getYear() + "\n";
     }
 }
